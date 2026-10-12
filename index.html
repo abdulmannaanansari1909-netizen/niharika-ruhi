@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Niharika Ruhi - Social & Business Platform</title>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-black: #0b0b0e;
+      --card-bg: #15151c;
+      --pink-primary: #ff2a85;
+      --pink-glow: rgba(255, 42, 133, 0.35);
+      --pink-hover: #e01f71;
+      --text-white: #f5f5f7;
+      --text-gray: #a1a1aa;
+      --border-color: #272730;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* GLASSMORPHISM & SHADOWS */
+    .pink-btn {
+      background: linear-gradient(135deg, var(--pink-primary), #d91b6c);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px var(--pink-glow);
+      transition: all 0.3s ease;
+    }
+    .pink-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 42, 133, 0.5);
+    }
+
+    /* SIDEBAR (DESKTOP) & BOTTOM NAV (MOBILE) */
+    .sidebar {
+      width: 260px;
+      background-color: var(--card-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--pink-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-menu {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--text-gray);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(255, 42, 133, 0.1);
+      color: var(--pink-primary);
+    }
+
+    .nav-item i {
+      font-size: 18px;
+    }
+
+    /* MAIN CONTAINER */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(11, 11, 14, 0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      width: 300px;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      margin-left: 10px;
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon-badge {
+      position: relative;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--text-gray);
+    }
+
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--pink-primary);
+      color: white;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SECTIONS */
+    .section {
+      display: none;
+      padding: 30px;
+    }
+    .section.active {
+      display: block;
+    }
+
+    /* HOME / WELCOME SCREEN */
+    .hero-card {
+      background: linear-gradient(135deg, rgba(255,42,133,0.2) 0%, rgba(21,21,28,1) 100%);
+      border: 1px solid var(--pink-primary);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      transition: 0.3s;
+    }
+    .card:hover {
+      border-color: var(--pink-primary);
+    }
+
+    /* CHAT & CALL UI */
+    .chat-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      height: calc(100vh - 120px);
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .chat-users {
+      border-right: 1px solid var(--border-color);
+      overflow-y: auto;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .user-item:hover, .user-item.active {
+      background: rgba(255, 42, 133, 0.1);
+    }
+
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .call-btns i {
+      font-size: 18px;
+      color: var(--pink-primary);
+      background: rgba(255, 42, 133, 0.1);
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .chat-messages {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .msg {
+      max-width: 60%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+    .msg.incoming {
+      background-color: var(--border-color);
+      align-self: flex-start;
+    }
+    .msg.outgoing {
+      background-color: var(--pink-primary);
+      color: white;
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      padding: 15px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      background-color: var(--bg-black);
+      border: 1px solid var(--border-color);
+      padding: 10px 15px;
+      border-radius: 10px;
+      color: white;
+      outline: none;
+    }
+
+    /* MODAL (AUDIO/VIDEO CALL MODAL) */
+    .call-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .call-overlay.active {
+      display: flex;
+    }
+
+    .video-box {
+      width: 80%;
+      max-width: 700px;
+      height: 400px;
+      background-color: #000;
+      border: 2px solid var(--pink-primary);
+      border-radius: 20px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .call-controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .call-btn-danger {
+      background-color: #ff3b30;
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* RESPONSIVE MOBILE STYLING */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: 60px;
+        position: fixed;
+        bottom: 0;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+        padding: 5px 15px;
+      }
+      .brand, .admin-link {
+        display: none;
+      }
+      .nav-menu {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 0;
+      }
+      .main-content {
+        margin-bottom: 60px;
+      }
+      .chat-container {
+        grid-template-columns: 1fr;
+      }
+      .chat-users {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <div class="sidebar">
+    <div class="brand">
+      <i class="fa-solid fa-gem"></i> Niharika Ruhi
+    </div>
+    
+    <div class="nav-menu">
+      <a class="nav-item active" onclick="switchTab('home')">
+        <i class="fa-solid fa-house"></i> <span>Home</span>
+      </a>
+      <a class="nav-item" onclick="switchTab('chat')">
+        <i class="fa-solid fa-comment-dots"></i> <span>Messages</span>
+      </a>
+      <a class="nav-item" onclick="switchTab('admin')">
+        <i class="fa-solid fa-shield-halved"></i> <span>Admin Panel</span>
+      </a>
+    </div>
+
+    <div class="admin-link">
+      <span style="font-size: 12px; color: var(--text-gray);">Status: <b style="color: #4cd964;">Online</b></span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="main-content">
+    
+    <!-- TOP HEADER -->
+    <div class="top-header">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-gray);"></i>
+        <input type="text" placeholder="Search users, products, business...">
+      </div>
+      
+      <div class="header-actions">
+        <div class="icon-badge">
+          <i class="fa-solid fa-bell"></i>
+          <span class="badge">3</span>
+        </div>
+        <button class="pink-btn">+ New Post</button>
+      </div>
+    </div>
+
+    <!-- HOME PAGE SECTION -->
+    <div id="home" class="section active">
+      <div class="hero-card">
+        <div>
+          <h1 style="font-size: 28px; margin-bottom: 10px;">Welcome to Niharika Ruhi ✨</h1>
+          <p style="color: var(--text-gray); max-width: 500px;">The ultimate hybrid network for business growth and seamless social interaction.</p>
+        </div>
+        <button class="pink-btn" onclick="switchTab('chat')">Start Messaging</button>
+      </div>
+
+      <h3 style="margin-bottom: 15px;">Trending Business Profiles</h3>
+      <div class="grid-layout">
+        <div class="card">
+          <h4>Fashion & Lifestyle</h4>
+          <p style="color: var(--text-gray); font-size: 13px; margin: 10px 0;">Premium catalog and designer outfits.</p>
+          <button class="pink-btn" style="width: 100%; font-size: 12px;">View Store</button>
+        </div>
+        <div class="card">
+          <h4>Creative Agency</h4>
+          <p style="color: var(--text-gray); font-size: 13px; margin: 10px 0;">Branding, editing, and tech setups.</p>
+          <button class="pink-btn" style="width: 100%; font-size: 12px;">Contact Partner</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REAL-TIME CHAT SECTION -->
+    <div id="chat" class="section">
+      <div class="chat-container">
+        
+        <!-- User list -->
+        <div class="chat-users">
+          <div class="user-item active">
+            <div style="width: 40px; height: 40px; background: var(--pink-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">NR</div>
+            <div>
+              <h5 style="color: white;">Niharika VIP Client</h5>
+              <p style="font-size: 11px; color: var(--text-gray);">Hey, project details discussed?</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Chat Window -->
+        <div class="chat-area">
+          <div class="chat-header">
+            <div>
+              <b>Niharika VIP Client</b>
+              <span style="font-size: 12px; color: #4cd964; display: block;">Active Now</span>
+            </div>
+            <div class="call-btns">
+              <i class="fa-solid fa-phone" onclick="startCall('audio')"></i>
+              <i class="fa-solid fa-video" onclick="startCall('video')"></i>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="message-list">
+            <div class="msg incoming">Hello! Welcome to Niharika Ruhi network.</div>
+            <div class="msg outgoing">Hey, glad to be here! Looking for business networking.</div>
+          </div>
+
+          <div class="chat-input">
+            <input type="text" id="msg-input" placeholder="Type a message...">
+            <button class="pink-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ADMIN PANEL SECTION -->
+    <div id="admin" class="section">
+      <h2 style="margin-bottom: 20px; color: var(--pink-primary);">🛡️ Platform Admin Panel</h2>
+      
+      <div class="grid-layout">
+        <div class="card">
+          <h3>Reports Received</h3>
+          <h1 style="font-size: 36px; margin: 15px 0; color: var(--pink-primary);">04</h1>
+          <p style="color: var(--text-gray); font-size: 12px;">Pending moderation review</p>
+        </div>
+        <div class="card">
+          <h3>Blocked Users</h3>
+          <h1 style="font-size: 36px; margin: 15px 0; color: #ff3b30;">12</h1>
+          <p style="color: var(--text-gray); font-size: 12px;">Accounts banned for spamming</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CALLING OVERLAY MODAL -->
+  <div class="call-overlay" id="call-modal">
+    <div class="video-box" id="video-display">
+      <i class="fa-solid fa-user-circle" style="font-size: 80px; color: var(--text-gray);"></i>
+      <span style="position: absolute; bottom: 20px; color: white;" id="call-status-text">Calling...</span>
+    </div>
+    <div class="call-controls">
+      <button class="call-btn-danger" onclick="endCall()"><i class="fa-solid fa-phone-slash"></i></button>
+    </div>
+  </div>
+
+  <script>
+    // TAB SWITCHING FUNCTIONALITY
+    function switchTab(tabId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // CHAT MESSAGE FUNCTIONALITY
+    function sendMessage() {
+      let input = document.getElementById('msg-input');
+      let msgText = input.value.trim();
+      if(msgText !== "") {
+        let msgBox = document.getElementById('message-list');
+        let newMsg = document.createElement('div');
+        newMsg.className = 'msg outgoing';
+        newMsg.innerText = msgText;
+        msgBox.appendChild(newMsg);
+        input.value = "";
+        msgBox.scrollTop = msgBox.scrollHeight;
+      }
+    }
+
+    // CALLING SIMULATION FUNCTIONALITY
+    function startCall(type) {
+      let modal = document.getElementById('call-modal');
+      let status = document.getElementById('call-status-text');
+      modal.classList.add('active');
+      
+      if(type === 'audio') {
+        status.innerText = "🔊 Connected to Audio Call...";
+      } else {
+        status.innerText = "🎥 Connected to Video Call...";
+      }
+    }
+
+    function endCall() {
+      document.getElementById('call-modal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
